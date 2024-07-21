@@ -34,7 +34,7 @@ class StartMenu {
     send(to) {
         return __awaiter(this, void 0, void 0, function* () {
             let data = JSON.parse((yield __classPrivateFieldGet(this, _StartMenu_params, "f")).toString());
-            new messageTemplate_1.MessageTemplate().send(to, data.sections, "list", data.header);
+            yield new messageTemplate_1.MessageTemplate().send(to, data.sections, "list", data.header);
         });
     }
     strategy(message, strategy) {
