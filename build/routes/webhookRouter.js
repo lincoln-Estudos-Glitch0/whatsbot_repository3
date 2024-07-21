@@ -32,25 +32,32 @@ route.get('webhook/', (req, res) => {
     }
 });
 route.post('webhook/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    for (let entry of req.body.entry) {
-        for (let change of entry.changes) {
-            for (let message of change.value.messages) {
-                if (message.type == 'list_reply') {
-                    let strategy = message.interactive.list_reply.id;
-                    if (strategy.includes('startmenu')) {
-                        yield new startMenu_1.StartMenu().strategy(message, strategy);
+    try {
+        for (let entry of req.body.entry) {
+            for (let change of entry.changes) {
+                for (let message of change.value.messages) {
+                    if (message.type == 'list_reply') {
+                        let strategy = message.interactive.list_reply.id;
+                        if (strategy.includes('startmenu')) {
+                            yield new startMenu_1.StartMenu().strategy(message, strategy);
+                        }
+                        else if (strategy.includes('pizzamenu')) {
+                            yield new PizzaMenu_1.PizzaMenu().strategy(message, strategy);
+                        }
                     }
-                    else if (strategy.includes('pizzamenu')) {
-                        yield new PizzaMenu_1.PizzaMenu().strategy(message, strategy);
+                    else if (message.type == 'location') {
+                        yield new PizzaMenu_1.PizzaMenu().location(message);
                     }
-                }
-                else if (message.type == 'location') {
-                    yield new PizzaMenu_1.PizzaMenu().location(message);
-                }
-                else {
-                    yield new startMenu_1.StartMenu().send(message.from);
+                    else {
+                        yield new startMenu_1.StartMenu().send(message.from);
+                    }
                 }
             }
         }
+        res.sendStatus(200);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
     }
 }));
