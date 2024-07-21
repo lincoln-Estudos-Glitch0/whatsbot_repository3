@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WebhookCOntroller = void 0;
+exports.WebhookController = void 0;
 const express_1 = require("express");
 const dotenv_1 = __importDefault(require("dotenv"));
 const startMenu_1 = require("../components/menus/startMenu");
 const PizzaMenu_1 = require("../components/menus/PizzaMenu");
 dotenv_1.default.config();
 let route = (0, express_1.Router)();
-exports.WebhookCOntroller = route;
+exports.WebhookController = route;
 route.get('webhook/', (req, res) => {
     let mode = req.query['hub.mode'];
     let challenge = req.query['hub.challenge'];
@@ -33,6 +33,7 @@ route.get('webhook/', (req, res) => {
 });
 route.post('webhook/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(JSON.stringify(req.body));
         for (let entry of req.body.entry) {
             for (let change of entry.changes) {
                 for (let message of change.value.messages) {

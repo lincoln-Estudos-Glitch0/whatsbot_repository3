@@ -8,5 +8,5 @@ const webhookRouter_1 = require("./routes/webhookRouter");
 let app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-app.use(webhookRouter_1.WebhookCOntroller);
+app.use(webhookRouter_1.WebhookController);
 app.listen(process.env.HOST_PORT, () => console.log('listening at port: ', process.env.HOST_PORT || 3000));
