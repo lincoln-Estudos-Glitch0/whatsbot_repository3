@@ -27,7 +27,7 @@ exports.default = (to_1, sections_1, ...args_1) => __awaiter(void 0, [to_1, sect
     };
     const opts = {
         headers: {
-            'Authorization': process.env.AXIOS_HEADER_TOKEN
+            'Authorization': `Bearer ${process.env.AXIOS_HEADER_TOKEN}`
         }
     };
     let message = {

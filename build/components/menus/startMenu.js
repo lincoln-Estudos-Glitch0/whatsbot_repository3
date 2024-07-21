@@ -28,7 +28,7 @@ const PizzaMenu_1 = require("./PizzaMenu");
 class StartMenu {
     constructor() {
         _StartMenu_params.set(this, void 0);
-        let tmp = (0, promises_1.readFile)("./MenuContent/startMenu.json");
+        let tmp = (0, promises_1.readFile)("build/components/menus/MenuContent/startMenu.json");
         __classPrivateFieldSet(this, _StartMenu_params, tmp, "f");
     }
     send(to) {

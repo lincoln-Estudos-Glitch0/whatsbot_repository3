@@ -18,7 +18,7 @@ dotenv_1.default.config();
 exports.default = (to) => __awaiter(void 0, void 0, void 0, function* () {
     const opts = {
         headers: {
-            'Authorization': process.env.AXIOS_HEADER_TOKEN
+            'Authorization': `Bearer ${process.env.AXIOS_HEADER_TOKEN}`
         }
     };
     let message = {

@@ -27,7 +27,7 @@ const promises_1 = require("node:fs/promises");
 class PizzaMenu {
     constructor() {
         _PizzaMenu_params.set(this, void 0);
-        let tmp = (0, promises_1.readFile)("./MenuContent/startMenu.json");
+        let tmp = (0, promises_1.readFile)("build/components/menus/MenuContent/pizzaMenu.json");
         __classPrivateFieldSet(this, _PizzaMenu_params, tmp, "f");
     }
     send(to) {
