@@ -1,0 +1,26 @@
+{
+    "sections": [
+        {
+            "title": "Opções disponíveis",
+
+            "rows": [
+                {
+                    "title": "Sobre nós",
+                    "id": "startmenu-info"
+                },
+                {
+                    "title": "Pizzas",
+                    "id": "startmenu-pizzas"
+                },
+                {
+                    "title": "Salgados e assados",
+                    "id": "startmenu-salgados"
+                }
+            ]
+        }
+    ],
+    "header": {
+        "type": "text",
+        "text": "Start Menu - Pizzaria"
+    }
+}

@@ -33,7 +33,6 @@ route.get('/webhook', (req, res) => {
 });
 route.post('/webhook', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(JSON.stringify(req.body));
         for (let entry of req.body.entry) {
             for (let change of entry.changes) {
                 for (let message of change.value.messages) {

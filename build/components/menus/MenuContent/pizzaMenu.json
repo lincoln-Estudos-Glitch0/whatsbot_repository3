@@ -1,0 +1,39 @@
+{
+    "sections": [
+        {
+            "title": "Sabores",
+
+            "rows": [
+                {
+                    "title": "Portuguesa",
+                    "id": "pizzamenu-taste-01",
+                    "description": "R$ 30,00"
+                },
+                {
+                    "title": "Frango com Catupiry",
+                    "id": "pizzamenu-taste-02",
+                    "description": "R$ 30,00"
+                },
+                {
+                    "title": "Calabresa",
+                    "id": "pizzamenu-taste-03",
+                    "description": "R$ 30,00"
+                },
+                {
+                    "title": "4 queijos",
+                    "id": "pizzamenu-taste-04",
+                    "description": "R$ 30,00"
+                }
+            ]
+        }
+    ],
+
+    "body": {
+        "text": "Escolha um sabor: "
+    },
+
+    "header": {
+        "type": "text",
+        "text": "Pizza Menu - Pizzaria"
+    }
+}
