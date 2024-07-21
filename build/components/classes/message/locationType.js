@@ -35,5 +35,5 @@ exports.default = (to) => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
     };
-    yield axios_1.default.post(`https://graph.facebook.com/v19.0/${process.env.WHATS_CEL_ID}/messages`, message, opts);
+    yield axios_1.default.post(`https://graph.facebook.com/v20.0/${process.env.WHATS_CEL_ID}/messages`, message, opts);
 });
