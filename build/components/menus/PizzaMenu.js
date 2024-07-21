@@ -39,16 +39,16 @@ class PizzaMenu {
     strategy(message, strategy) {
         return __awaiter(this, void 0, void 0, function* () {
             if (strategy == "pizzamenu-taste-01") {
-                new messageTemplate_1.MessageTemplate().sendLocation(message.from);
+                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
             }
             else if (strategy == "pizzamenu-taste-02") {
-                new messageTemplate_1.MessageTemplate().sendLocation(message.from);
+                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
             }
             else if (strategy == "pizzamenu-taste-03") {
-                new messageTemplate_1.MessageTemplate().sendLocation(message.from);
+                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
             }
             else if (strategy == "pizzamenu-taste-04") {
-                new messageTemplate_1.MessageTemplate().sendLocation(message.from);
+                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
             }
         });
     }

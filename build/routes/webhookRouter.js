@@ -20,7 +20,7 @@ const PizzaMenu_1 = require("../components/menus/PizzaMenu");
 dotenv_1.default.config();
 let route = (0, express_1.Router)();
 exports.WebhookController = route;
-route.get('webhook/', (req, res) => {
+route.get('/webhook', (req, res) => {
     let mode = req.query['hub.mode'];
     let challenge = req.query['hub.challenge'];
     let token = req.query["hub.verify_token"];
@@ -31,7 +31,7 @@ route.get('webhook/', (req, res) => {
         return res.sendStatus(403);
     }
 });
-route.post('webhook/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+route.post('/webhook', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(JSON.stringify(req.body));
         for (let entry of req.body.entry) {
