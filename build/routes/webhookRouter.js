@@ -48,7 +48,7 @@ route.post('/webhook', (req, res) => __awaiter(void 0, void 0, void 0, function*
                                 }
                             }
                         }
-                        else if (message.type == 'location') {
+                        else if (message.interactive.type == 'location_request_message') {
                             yield new PizzaMenu_1.PizzaMenu().location(message);
                         }
                         else {
