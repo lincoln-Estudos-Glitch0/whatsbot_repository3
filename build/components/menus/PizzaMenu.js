@@ -118,7 +118,7 @@ class PizzaMenu {
     }
     locationAgainStrategy(message) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (message.interactive.button_reply.id == 'location-confirm-again') {
+            if (message.interactive.button_reply.id == 'location-options-again') {
                 let cache = new CacheService_1.CacheService();
                 const text = 'Escreva o endereço para a entrega, por favor:';
                 if (cache.existTask(message.from)) {
@@ -126,7 +126,7 @@ class PizzaMenu {
                     cache.locationRequest(message.from);
                 }
             }
-            else if (message.interactive.button_reply.id == 'location-confirm-cancel') {
+            else if (message.interactive.button_reply.id == 'location-options-cancel') {
                 let cache = new CacheService_1.CacheService();
                 cache.clearTask(message.from);
                 yield new startMenu_1.StartMenu().send(message.from);
