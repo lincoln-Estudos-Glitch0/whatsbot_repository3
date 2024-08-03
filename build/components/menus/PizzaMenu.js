@@ -111,7 +111,7 @@ class PizzaMenu {
                         let buttons = (yield (0, promises_1.readFile)('build/components/menus/MenuContent/locationButton.json')).toString();
                         buttons = JSON.parse(buttons).send_loc_again;
                         const text = 'Quer tentar novamente digitar o endereço ? Ou apenas cancelar o pedido?';
-                        yield new messageTemplate_1.MessageTemplate().send(identity, buttons, 'button', false, text);
+                        yield new messageTemplate_1.MessageTemplate().send(identity, buttons, 'button', false, { text: text });
                     }
                 }
             }
