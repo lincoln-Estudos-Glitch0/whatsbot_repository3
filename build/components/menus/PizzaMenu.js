@@ -107,7 +107,6 @@ class PizzaMenu {
                 let identity = message.from;
                 if (cache.existTask(identity)) {
                     if (cache.getTaskBody(identity).loc_request) {
-                        cache.updateItem(identity, { loc_request: false });
                         let buttons = (yield (0, promises_1.readFile)('build/components/menus/MenuContent/locationButton.json')).toString();
                         buttons = JSON.parse(buttons).send_loc_again;
                         const text = 'Quer tentar novamente digitar o endereço ? Ou apenas cancelar o pedido?';
