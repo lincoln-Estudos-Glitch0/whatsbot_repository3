@@ -44,7 +44,7 @@ class CacheService {
         }
     }
     locationRequest(identity) {
-        if (!__classPrivateFieldGet(this, _CacheService_data, "f").has(identity)) {
+        if (__classPrivateFieldGet(this, _CacheService_data, "f").has(identity)) {
             let tmp = __classPrivateFieldGet(this, _CacheService_data, "f").take(identity);
             tmp.item.loc_request = true;
             __classPrivateFieldGet(this, _CacheService_data, "f").set(identity, tmp);
