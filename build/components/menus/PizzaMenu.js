@@ -98,6 +98,7 @@ class PizzaMenu {
                         cache.updateItem(identity, { loc_request: false });
                         let message = (0, CacheService_1.taskBodytoString)(cache.getTaskBody(identity));
                         yield new messageTemplate_1.MessageTemplate().sendText(identity, message);
+                        cache.clearTask(identity);
                     }
                 }
             }
@@ -121,8 +122,10 @@ class PizzaMenu {
             if (message.interactive.button_reply.id == 'location-confirm-again') {
                 let cache = new CacheService_1.CacheService();
                 const text = 'Escreva o endereço para a entrega, por favor:';
-                yield new messageTemplate_1.MessageTemplate().sendText(message.from, text);
-                cache.locationRequest(message.from);
+                if (cache.existTask(message.from)) {
+                    yield new messageTemplate_1.MessageTemplate().sendText(message.from, text);
+                    cache.locationRequest(message.from);
+                }
             }
             else if (message.interactive.button_reply.id == 'location-confirm-cancel') {
                 let cache = new CacheService_1.CacheService();
