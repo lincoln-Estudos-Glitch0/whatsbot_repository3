@@ -78,11 +78,13 @@ class PizzaMenu {
                 type: 'text',
                 text: 'Confirmação de endereço'
             };
+            let address = searching_location.display_name;
+            address = address.split(',').slice(0, 4).join(',');
             let body = {
-                text: `Endereço: ${searching_location.display_name}`
+                text: `Endereço: ${address}`
             };
             let messageTemplate = new messageTemplate_1.MessageTemplate();
-            yield messageTemplate.sendLocation(message.from, searching_location.latitude, searching_location.longitude, searching_location.display_name);
+            yield messageTemplate.sendLocation(message.from, searching_location.lat, searching_location.lon, searching_location.display_name);
             yield messageTemplate.send(message.from, buttons, 'button', header, body);
         });
     }
