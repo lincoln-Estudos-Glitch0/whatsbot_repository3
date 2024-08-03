@@ -65,7 +65,7 @@ route.post('/webhook', (req, res) => __awaiter(void 0, void 0, void 0, function*
                         else {
                             if (cache.existTask(message.from) && message.type == 'text') {
                                 if (cache.getTaskBody(message.from).loc_request) {
-                                    yield new PizzaMenu_1.PizzaMenu().confirmLocation(message.from);
+                                    yield new PizzaMenu_1.PizzaMenu().confirmLocation(message);
                                 }
                             }
                             else {
