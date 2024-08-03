@@ -1,0 +1,36 @@
+{
+    "buttons": [
+        {
+            "type": "reply",
+            "reply": {
+                "id": "location-confirm-yes",
+                "title": "Sim"
+            }
+        },
+        {
+            "type": "reply",
+            "reply": {
+                "id": "location-confirm-no",
+                "title": "Não"
+            }
+        }
+    ],
+
+    "send_loc_again": [
+
+        {
+            "type": "reply",
+            "reply": {
+                "id": "location-options-again",
+                "title": "Tentar novamente"
+            }
+        },
+        {
+            "type": "reply",
+            "reply": {
+                "id": "location-options-cancel",
+                "title": "Cancelar pedido"
+            }
+        }
+    ]
+}

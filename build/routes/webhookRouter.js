@@ -17,6 +17,7 @@ const express_1 = require("express");
 const dotenv_1 = __importDefault(require("dotenv"));
 const startMenu_1 = require("../components/menus/startMenu");
 const PizzaMenu_1 = require("../components/menus/PizzaMenu");
+const CacheService_1 = require("../components/utils/cache/CacheService");
 dotenv_1.default.config();
 let route = (0, express_1.Router)();
 exports.WebhookController = route;
@@ -33,6 +34,7 @@ route.get('/webhook', (req, res) => {
 });
 route.post('/webhook', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        let cache = new CacheService_1.CacheService();
         for (let entry of req.body.entry) {
             for (let change of entry.changes) {
                 if (change.value && Array.isArray(change.value.messages)) {
@@ -47,12 +49,28 @@ route.post('/webhook', (req, res) => __awaiter(void 0, void 0, void 0, function*
                                     yield new PizzaMenu_1.PizzaMenu().strategy(message, strategy);
                                 }
                             }
+                            else if (message.interactive.type == 'button_reply') {
+                                let strategy = message.interactive.button_reply.id;
+                                if (strategy.includes('confirm')) {
+                                    yield new PizzaMenu_1.PizzaMenu().location_strategy(message);
+                                }
+                                else if (strategy.includes('options')) {
+                                    yield new PizzaMenu_1.PizzaMenu().locationAgainStrategy(message);
+                                }
+                            }
                         }
                         else if (message.type == 'location') {
-                            yield new PizzaMenu_1.PizzaMenu().location(message);
+                            // await new PizzaMenu().location(message)
                         }
                         else {
-                            yield new startMenu_1.StartMenu().send(message.from);
+                            if (cache.existTask(message.from) && message.type == 'text') {
+                                if (cache.getTaskBody(message.from).loc_request) {
+                                    yield new PizzaMenu_1.PizzaMenu().confirmLocation(message.from);
+                                }
+                            }
+                            else {
+                                yield new startMenu_1.StartMenu().send(message.from);
+                            }
                         }
                     }
                 }

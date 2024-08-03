@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-exports.default = (to, latitude, longitude, address) => __awaiter(void 0, void 0, void 0, function* () {
+exports.default = (to, text) => __awaiter(void 0, void 0, void 0, function* () {
     const opts = {
         headers: {
             'Authorization': `Bearer ${process.env.AXIOS_HEADER_TOKEN}`
@@ -24,11 +24,9 @@ exports.default = (to, latitude, longitude, address) => __awaiter(void 0, void 0
     let message = {
         messaging_product: "whatsapp",
         to: to,
-        type: "location",
-        location: {
-            latitude: latitude,
-            longitude: longitude,
-            address: address
+        type: "text",
+        text: {
+            body: text
         }
     };
     yield axios_1.default.post(`https://graph.facebook.com/v19.0/${process.env.WHATS_CEL_ID}/messages`, message, opts);

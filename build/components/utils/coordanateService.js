@@ -12,24 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CoordenateService = void 0;
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-exports.default = (to, latitude, longitude, address) => __awaiter(void 0, void 0, void 0, function* () {
-    const opts = {
-        headers: {
-            'Authorization': `Bearer ${process.env.AXIOS_HEADER_TOKEN}`
-        }
-    };
-    let message = {
-        messaging_product: "whatsapp",
-        to: to,
-        type: "location",
-        location: {
-            latitude: latitude,
-            longitude: longitude,
-            address: address
-        }
-    };
-    yield axios_1.default.post(`https://graph.facebook.com/v19.0/${process.env.WHATS_CEL_ID}/messages`, message, opts);
-});
+class CoordenateService {
+    constructor() { }
+    getCoordenate(address) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let local = encodeURIComponent(address);
+            let res = yield axios_1.default.get(`https://us1.locationiq.com/v1/search?key=${process.env['MAP_AUTH']}&q=${local}&format=json`);
+            return res;
+        });
+    }
+}
+exports.CoordenateService = CoordenateService;

@@ -25,6 +25,7 @@ exports.StartMenu = void 0;
 const messageTemplate_1 = require("../classes/message/messageTemplate");
 const promises_1 = require("node:fs/promises");
 const PizzaMenu_1 = require("./PizzaMenu");
+const CacheService_1 = require("../utils/cache/CacheService");
 class StartMenu {
     constructor() {
         _StartMenu_params.set(this, void 0);
@@ -42,6 +43,14 @@ class StartMenu {
             switch (strategy) {
                 case "startmenu-pizzas":
                     yield new PizzaMenu_1.PizzaMenu().send(message.from);
+                    let instance = new CacheService_1.CacheService();
+                    if (instance.existTask(message.from)) {
+                        instance.clearTask(message.from);
+                        instance.newTask(message.from);
+                    }
+                    else {
+                        instance.newTask(message.from);
+                    }
                     break;
                 case "startmenu-salgados":
                     break;

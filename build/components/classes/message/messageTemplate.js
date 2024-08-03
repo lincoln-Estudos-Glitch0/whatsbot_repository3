@@ -14,9 +14,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageTemplate = void 0;
 const listMessageType_1 = __importDefault(require("./listMessageType"));
+const buttonMessageType_1 = __importDefault(require("./buttonMessageType"));
+const textMessageType_1 = __importDefault(require("./textMessageType"));
 const locationType_1 = __importDefault(require("./locationType"));
 class MessageTemplate {
-    constructor() { }
+    constructor() {
+    }
+    sendText(to, text) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!to) {
+                return false;
+            }
+            yield (0, textMessageType_1.default)(to, text);
+        });
+    }
     send(to, section, type, header, body) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!to) {
@@ -26,15 +37,18 @@ class MessageTemplate {
                 if (type == 'list') {
                     yield (0, listMessageType_1.default)(to, section, header, body);
                 }
+                else if (type == 'button') {
+                    yield (0, buttonMessageType_1.default)(to, section, header, body);
+                }
             }
         });
     }
-    sendLocation(to) {
+    sendLocation(to, lat, lon, address) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!to) {
                 return false;
             }
-            yield (0, locationType_1.default)(to);
+            yield (0, locationType_1.default)(to, lat, lon, address);
         });
     }
 }

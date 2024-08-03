@@ -23,12 +23,14 @@ var _PizzaMenu_params;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PizzaMenu = void 0;
 const messageTemplate_1 = require("../classes/message/messageTemplate");
+const startMenu_1 = require("./startMenu");
 const promises_1 = require("node:fs/promises");
+const CacheService_1 = require("../utils/cache/CacheService");
+const coordanateService_1 = require("../utils/coordanateService");
 class PizzaMenu {
     constructor() {
         _PizzaMenu_params.set(this, void 0);
-        let tmp = (0, promises_1.readFile)("build/components/menus/MenuContent/pizzaMenu.json");
-        __classPrivateFieldSet(this, _PizzaMenu_params, tmp, "f");
+        __classPrivateFieldSet(this, _PizzaMenu_params, (0, promises_1.readFile)('build/components/menus/MenuContent/pizzaMenu.json'), "f");
     }
     send(to) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -38,23 +40,93 @@ class PizzaMenu {
     }
     strategy(message, strategy) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (strategy == "pizzamenu-taste-01") {
-                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
+            try {
+                let cache = new CacheService_1.CacheService();
+                if (cache.existTask(message.from)) {
+                    let data = cache.getTaskBody(message.from);
+                    let title = JSON.parse((yield __classPrivateFieldGet(this, _PizzaMenu_params, "f")).toString());
+                    let price = title.sections[0].rows.filter((el) => el.id == strategy)[0].description;
+                    title = title.sections[0].rows.filter((el) => el.id == strategy)[0].title;
+                    data.task = title;
+                    data.price = price;
+                    cache.updateItem(message.from, data);
+                }
+                else {
+                    cache.newTask(message.from);
+                    let data = cache.getTaskBody(message.from);
+                    let title = JSON.parse((yield __classPrivateFieldGet(this, _PizzaMenu_params, "f")).toString());
+                    title = title.sections[0].rows.filter((el) => el.id == strategy)[0].title;
+                    data.task = title;
+                    cache.updateItem(message.from, data);
+                }
+                const text = 'Escreva o endereço para a entrega, por favor:';
+                yield new messageTemplate_1.MessageTemplate().sendText(message.from, text);
+                cache.locationRequest(message.from);
             }
-            else if (strategy == "pizzamenu-taste-02") {
-                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
-            }
-            else if (strategy == "pizzamenu-taste-03") {
-                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
-            }
-            else if (strategy == "pizzamenu-taste-04") {
-                yield new messageTemplate_1.MessageTemplate().sendLocation(message.from);
+            catch (e) {
+                console.log(e);
             }
         });
     }
-    location(message) {
+    confirmLocation(message) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(message.location);
+            let searching_location = (yield new coordanateService_1.CoordenateService().getCoordenate(message.text.body)).data[0];
+            let buttons = yield (0, promises_1.readFile)('build/components/menus/MenuContent/locationButton.json');
+            buttons = JSON.parse(buttons.toString());
+            buttons = buttons.buttons;
+            let header = {
+                type: 'text',
+                text: 'Confirmação de endereço'
+            };
+            let body = {
+                text: `Endereço: ${searching_location.display_name}`
+            };
+            let messageTemplate = new messageTemplate_1.MessageTemplate();
+            yield messageTemplate.sendLocation(message.from, searching_location.latitude, searching_location.longitude, searching_location.display_name);
+            yield messageTemplate.send(message.from, buttons, 'button', header, body);
+        });
+    }
+    location_strategy(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (message.interactive.button_reply.id == 'location-confirm-yes') {
+                let cache = new CacheService_1.CacheService();
+                let identity = message.from;
+                if (cache.existTask(identity)) {
+                    if (cache.getTaskBody(identity).loc_request) {
+                        cache.updateItem(identity, { loc_request: false });
+                        let message = (0, CacheService_1.taskBodytoString)(cache.getTaskBody(identity));
+                        yield new messageTemplate_1.MessageTemplate().sendText(identity, message);
+                    }
+                }
+            }
+            else if (message.interactive.button_reply.id == 'location-confirm-no') {
+                let cache = new CacheService_1.CacheService();
+                let identity = message.from;
+                if (cache.existTask(identity)) {
+                    if (cache.getTaskBody(identity).loc_request) {
+                        cache.updateItem(identity, { loc_request: false });
+                        let buttons = (yield (0, promises_1.readFile)('build/components/menus/MenuContent/locationButton.json')).toString();
+                        buttons = JSON.parse(buttons).send_loc_again;
+                        const text = 'Quer tentar novamente digitar o endereço ? Ou apenas cancelar o pedido?';
+                        yield new messageTemplate_1.MessageTemplate().send(identity, buttons, 'button', false, text);
+                    }
+                }
+            }
+        });
+    }
+    locationAgainStrategy(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (message.interactive.button_reply.id == 'location-confirm-again') {
+                let cache = new CacheService_1.CacheService();
+                const text = 'Escreva o endereço para a entrega, por favor:';
+                yield new messageTemplate_1.MessageTemplate().sendText(message.from, text);
+                cache.locationRequest(message.from);
+            }
+            else if (message.interactive.button_reply.id == 'location-confirm-cancel') {
+                let cache = new CacheService_1.CacheService();
+                cache.clearTask(message.from);
+                yield new startMenu_1.StartMenu().send(message.from);
+            }
         });
     }
 }
